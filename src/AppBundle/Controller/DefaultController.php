@@ -22,21 +22,28 @@ class DefaultController extends Controller
         ]);
     }
     
-    public function newAction(Request $request)
-    {
-        // create a task and give it some dummy data for this example
-        $task = new Task();
-        $task->setTask('Write a blog post');
-        $task->setDueDate(new \DateTime('tomorrow'));
+public function newAction(Request $request)
+{
+    // just setup a fresh $task object (remove the dummy data)
+    $task = new Task();
 
-        $form = $this->createFormBuilder($task)
-            ->add('task', TextType::class)
-            ->add('dueDate', DateType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
-            ->getForm();
+    $form = $this->createFormBuilder($task)
+        ->add('task', TextType::class)
+        ->add('dueDate', DateType::class)
+        ->add('save', SubmitType::class, array('label' => 'Create Task'))
+        ->getForm();
 
-        return $this->render('default/new.html.twig', array(
-            'form' => $form->createView(),
-        ));
-    }    
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        dump($task);
+        dump($request);
+        exit;
+        return $this->redirectToRoute('task_success');
+    }
+
+    return $this->render('default/new.html.twig', array(
+        'form' => $form->createView(),
+    ));
+}  
 }
