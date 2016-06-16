@@ -22,28 +22,31 @@ class DefaultController extends Controller
         ]);
     }
     
-public function newAction(Request $request)
-{
-    // just setup a fresh $task object (remove the dummy data)
-    $task = new Task();
-
-    $form = $this->createFormBuilder($task)
-        ->add('task', TextType::class)
-        ->add('dueDate', DateType::class)
-        ->add('save', SubmitType::class, array('label' => 'Create Task'))
-        ->getForm();
-
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        dump($task);
-        dump($request);
-        exit;
-        return $this->redirectToRoute('task_success');
-    }
-
-    return $this->render('default/new.html.twig', array(
-        'form' => $form->createView(),
-    ));
-}  
+    /**
+     * @Route("/task", name="task")
+     */
+    public function newAction(Request $request)
+    {
+        // just setup a fresh $task object (remove the dummy data)
+        $task = new Task();
+    
+        $form = $this->createFormBuilder($task)
+            ->add('task', TextType::class)
+            ->add('dueDate', DateType::class)
+            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+            ->getForm();
+    
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            dump($task);
+            dump($request);
+            exit;
+            return $this->redirectToRoute('task_success');
+        }
+    
+        return $this->render('default/new.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }  
 }
