@@ -13,7 +13,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $this->redirectToRoute('app_task_new');
+        return $this->redirectToRoute('app_task_new');
         
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
